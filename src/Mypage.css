@@ -1,0 +1,25 @@
+.mypage-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    padding: 10px 10px 0 0
+  }
+  
+  .home-btn {
+    background: none;
+    border: 1.5px solid #1a73e8;
+    color: #1a73e8;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    margin-top: 8px;
+  }
+  .home-btn:hover {
+    background: #1a73e8;
+    color: #fff;
+    
+  }
+  
