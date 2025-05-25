@@ -19,6 +19,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/Mypage" element={<Mypage />} />
             <Route path="/oauth-redirect" element={<OAuthRedirectPage />} />
+            <Route path="/oauth-redirect" element={<OAuthRedirectPage />} />
           </Routes>
         </div>
       </BrowserRouter>

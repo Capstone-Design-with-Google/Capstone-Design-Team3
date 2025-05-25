@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import './Mainpage.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import "./Mainpage.css";
 
 
 function Mainpage() {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState("");
+
   const { user, logout, addVideo } = useAuth();
   const navigate = useNavigate();
 
@@ -15,6 +16,7 @@ function Mainpage() {
   // 제출 시 URL 기반 비디오 생성 흐름
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!user) {
       alert('로그인 후에 이용해주세요!');
       return;
@@ -38,44 +40,50 @@ function Mainpage() {
   }, 2000);
 };
 
-const handleLogout = () => {
-  setUrl('');
-  setIsGenerating(false);
-  setVideoUrl('');
-  logout();
-  navigate('/');
-};
-  // 비디오 다운로드 처리
+  const handleLogout = () => {
+    setUrl("");
+    setIsGenerating(false);
+    setVideoUrl("");
+    logout();
+    navigate("/");
+  };
+
   const handleDownload = () => {
-    // 실제로는 이곳에 비디오 다운로드 로직이 들어가야 함
-    alert('다운로드 시작 (백엔드 없이 실제 다운로드는 되지 않습니다)');
+    alert("비디오 다운로드는 실제 백엔드 연동 시 구현됩니다.");
   };
 
   return (
     <div className="main-page">
+      {/* 상단 헤더 */}
       <div className="header">
         {user ? (
-           <div className="user-header">
-           <span className="user-info">반갑습니다, {user.name}님</span>
-           <div className="header-buttons">
-             <button className="my-page-btn" onClick={() => navigate('/Mypage')}>
-               MY PAGE
-             </button>
-             <button className="logout-btn" onClick={handleLogout}>
-               LOGOUT
-             </button>
-           </div>
-         </div>
-      ) : (
-        <button className="login-btn" onClick={() => navigate('/login')}>
-          LOGIN
-        </button>
-      )}
+          <div className="user-header">
+            <span className="user-info">반갑습니다, {user.name}님</span>
+            <div className="header-buttons">
+              <button
+                className="my-page-btn"
+                onClick={() => navigate("/Mypage")}
+              >
+                MY PAGE
+              </button>
+              <button className="logout-btn" onClick={handleLogout}>
+                LOGOUT
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button className="login-btn" onClick={() => navigate("/login")}>
+            LOGIN
+          </button>
+        )}
       </div>
-      
+
+      {/* 본문 내용 */}
       <div className="content">
-        <h1 className="logo">SHOPPABLE<span className="highlight">.AI</span></h1>
-        
+        <h1 className="logo">
+          SHOPPABLE<span className="highlight">.AI</span>
+        </h1>
+
         <form onSubmit={handleSubmit} className="search-form">
           <input
             type="text"
@@ -94,11 +102,12 @@ const handleLogout = () => {
             <p>비디오 생성 중...</p>
           </div>
         )}
-        
+
         {videoUrl && !isGenerating && (
           <div className="video-result">
             <div className="video-player">
               <p>비디오가 생성되었습니다!</p>
+              {/* 여기에 video 태그나 player 넣을 수도 있음 */}
             </div>
             <button className="download-btn" onClick={handleDownload}>
               비디오 다운로드

@@ -5,20 +5,20 @@ import './Mypage.css';
 
 function MyPage() {
   const { videoList, user } = useAuth();
+  
   const navigate = useNavigate();
 
-  // 비디오 다운로드 함수(더미)
   const downloadVideo = (url) => {
-    alert('다운로드 시작 (백엔드 없이 실제 다운로드는 되지 않습니다)');
+    alert("다운로드 시작! (실제 다운로드는 백엔드 연동 시 구현됩니다)");
   };
 
-  // Home 버튼 클릭 시 메인페이지로 이동
   const handleGoHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <div className="mypage">
+      {/* 헤더 영역 */}
       <div className="mypage-header">
         <button className="home-btn" onClick={handleGoHome}>
           HOME
@@ -33,6 +33,7 @@ function MyPage() {
         </div>
       )}
       <h1>My Videos</h1>
+
       {videoList.length === 0 ? (
         <p>생성된 영상이 없습니다.</p>
       ) : (
