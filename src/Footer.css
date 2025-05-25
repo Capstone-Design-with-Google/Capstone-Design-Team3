@@ -1,0 +1,26 @@
+.page-container {
+  min-height: 100vh;           /* 화면 전체 높이 */
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+  color: #90caf9;
+  text-align: center;
+  padding: 20px 0 10px 0;
+  font-size: 15px;
+  margin-top: auto;
+}
+
+.footer-dev {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #b3e5fc;
+}
+
+.footer a {
+  color: #90caf9;
+  text-decoration: underline;
+}

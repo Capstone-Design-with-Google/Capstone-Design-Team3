@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './Mainpage.css';
 
+
 function Mainpage() {
   const [url, setUrl] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -11,21 +12,19 @@ function Mainpage() {
   const navigate = useNavigate();
 
   // URL 제출 처리 (백엔드 연동 없이 상태 변경만)
+  // 제출 시 URL 기반 비디오 생성 흐름
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user) {
       alert('로그인 후에 이용해주세요!');
       return;
     }
-    
+    if (!url.trim()) {
+      alert("URL을 입력해주세요.");
+      return;
+    }
     setIsGenerating(true);
     
-    // 백엔드 연동 없이 3초 후 가상 비디오 URL 생성
-  //   setTimeout(() => {
-  //     setVideoUrl('https://example.com/sample-video.mp4'); // 가상 비디오 URL
-  //     setIsGenerating(false);
-  //   }, 3000);
-  // };
   setTimeout(() => {
     const newVideo = {
       id: Date.now(),
@@ -33,6 +32,7 @@ function Mainpage() {
       videoUrl: 'https://example.com/sample-video.mp4',
     };
     setVideoUrl(newVideo.videoUrl);
+
     setIsGenerating(false);
     addVideo(newVideo); // MyPage 목록에 추가
   }, 2000);
@@ -89,16 +89,6 @@ const handleLogout = () => {
           </button>
         </form>
         
-        
-        {/* {!user && (
-          <div className="sign-in-section">
-            <button className="google-login-btn" onClick={() => navigate('/login')}>
-              <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
-              Sign in with Google
-            </button>
-          </div>
-        )} */}
-        
         {isGenerating && (
           <div className="generating-message">
             <p>비디오 생성 중...</p>
@@ -116,23 +106,6 @@ const handleLogout = () => {
           </div>
         )}
         
-        {/* <div className="recommended-section">
-          <h3>TOP 3 recommended</h3>
-          <div className="recommended-items">
-            <div className="recommended-item">
-              <img src="https://via.placeholder.com/150" alt="준마라탕" />
-              <p>준마라탕</p>
-            </div>
-            <div className="recommended-item">
-              <img src="https://via.placeholder.com/150" alt="스시마라" />
-              <p>스시마라</p>
-            </div>
-            <div className="recommended-item">
-              <img src="https://via.placeholder.com/150" alt="마라XX" />
-              <p>마라XX</p>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

@@ -5,7 +5,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+
+  /* 기존 그라데이션 주석 처리 또는 삭제 */
+  /* background: linear-gradient(135deg, #0f2027 0%, #2c5364 50%, #2196f3 100%); */
+
+  /* 이미지 배경 적용 */
+  background-image: url('C:\Users\balka\source\repos\Capstone-Design-Team3\public\image1.jpg'); /* public 폴더 기준 경로 */
+  background-size: cover;           /* 이미지를 화면에 꽉 채움 */
+  background-repeat: no-repeat;     /* 반복 없음 */
+  background-position: center;      /* 중앙 정렬 */
+  background-attachment: fixed;     /* 스크롤 시 배경 고정 */
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

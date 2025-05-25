@@ -1,26 +1,28 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
 import './LoginPage.css';
 
+
 function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  // const { login } = useAuth();
+  // const navigate = useNavigate();
 
   // 구글 로그인 처리 (백엔드 연동 없이 간단하게)
   const handleGoogleLogin = () => {
     // 가상의 사용자 데이터
-    const userData = {
-      id: 'user123',
-      name: '홍길동',
-      email: 'user@example.com'
-    };
+    // const userData = {
+    //   id: 'user123',
+    //   name: '홍길동',
+    //   email: 'user@example.com'
+    // };
     
-    login(userData);
-    navigate('/');
+    // login(userData);
+    // navigate('/');
+    // Spring Boot 백엔드의 OAuth2 로그인 시작 URL
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
   return (
+    <div className="login-page overlay-bg">
     <div className="login-page">
       <h1 className="logo">SHOPPABLE<span className="highlight">.AI</span></h1>
       <div className="login-container">
@@ -33,6 +35,7 @@ function LoginPage() {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
