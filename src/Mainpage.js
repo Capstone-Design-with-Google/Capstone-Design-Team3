@@ -41,7 +41,7 @@ function Mainpage() {
     }
 
     // 백엔드에서 결과 데이터 받기 (예: 영상 URL 등)
-    const data = await response.json();
+    const data = await response.text();
     // 반환
     // 예시: data.videoUrl이 백엔드에서 반환된다면
     const newVideo = {
