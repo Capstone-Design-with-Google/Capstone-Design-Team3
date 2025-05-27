@@ -28,7 +28,7 @@ function Mainpage() {
     setIsGenerating(true);
     try {
     // 백엔드로 URL 전달 (POST 요청)
-    const response = await fetch('/api/receive-url', {
+    const response = await fetch('http://localhost:8080/api/receive-url', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
