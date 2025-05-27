@@ -14,7 +14,7 @@ function Mainpage() {
 
   // URL 제출 처리 (백엔드 연동 없이 상태 변경만)
   // 제출 시 URL 기반 비디오 생성 흐름
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!user) {
@@ -26,19 +26,50 @@ function Mainpage() {
       return;
     }
     setIsGenerating(true);
-    
-  setTimeout(() => {
+    try {
+    // 백엔드로 URL 전달 (POST 요청)
+    const response = await fetch('/api/url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) {
+      throw new Error('서버 오류: ' + response.status);
+    }
+
+    // 백엔드에서 결과 데이터 받기 (예: 영상 URL 등)
+    const data = await response.json();
+
+    // 예시: data.videoUrl이 백엔드에서 반환된다면
     const newVideo = {
       id: Date.now(),
       title: `${url} 요약`,
-      videoUrl: 'https://example.com/sample-video.mp4',
+      videoUrl: data.videoUrl || 'https://example.com/sample-video.mp4',
     };
     setVideoUrl(newVideo.videoUrl);
-
-    setIsGenerating(false);
     addVideo(newVideo); // MyPage 목록에 추가
-  }, 2000);
+  } catch (err) {
+    alert('서버와 통신 중 오류가 발생했습니다: ' + err.message);
+  } finally {
+    setIsGenerating(false);
+  }
 };
+//백에 url 전달 구현 전//
+//   setTimeout(() => {
+//     const newVideo = {
+//       id: Date.now(),
+//       title: `${url} 요약`,
+//       videoUrl: 'https://example.com/sample-video.mp4',
+//     };
+//     setVideoUrl(newVideo.videoUrl);
+
+//     setIsGenerating(false);
+//     addVideo(newVideo); // MyPage 목록에 추가
+//   }, 2000);
+// };
 
   const handleLogout = () => {
     setUrl("");
