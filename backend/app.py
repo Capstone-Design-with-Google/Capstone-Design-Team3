@@ -10,6 +10,9 @@ import requests
 
 from db import init_db_command
 from user import User
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from main import run_ai_shorts_generator
 
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "구글_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "구글_CLIENT_SECRET")
@@ -105,5 +108,23 @@ def api_user():
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
+# [여기 아래에 추가하세요]
+@app.route('/api/receive-url', methods=['POST'])
+@login_required
+def receive_url():
+    data = request.get_json()
+    url = data.get('url')
+    if not url:
+        return jsonify({'error': 'No URL provided'}), 400
+
+    try:
+        video_path = run_ai_shorts_generator(url)
+        if video_path:
+            return jsonify({'videoUrl': video_path})
+        else:
+            return jsonify({'error': '영상 생성에 실패했습니다.'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
