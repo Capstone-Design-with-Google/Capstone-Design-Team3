@@ -22,4 +22,32 @@
     color: #fff;
     
   }
-  
+  .video-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh; /* 필요에 따라 조정 */
+}
+
+.video-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.video-item {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+/* 기존 home-btn 스타일 그대로 사용 + 추가로 big-center-btn 스타일 적용 */
+.big-center-btn {
+  font-size: 24px;
+  padding: 10px 50px;
+  border-radius: 30px;
+  margin: 0 auto;
+  display: block;
+}

@@ -40,14 +40,27 @@ function MyPage() {
         // <ul>
         //   {videoList.map(video => (
         //     <li key={video.id} style={{ marginBottom: '10px' }}>
+        ////////////////////////////////////
+        // <ul className="video-list">
+        //   {videoList.map((video) => (
+        //     <li key={video.id} className="video-item">
+        //       <span>{video.title}</span>
+        //       <button onClick={() => downloadVideo(video.videoUrl)}>
+        //         {video.title}
+        //         다운로드
+        //       </button>
+        //     </li>
+        //   ))}
+        // </ul>
         <ul className="video-list">
-          {videoList.map((video) => (
+          {videoList.map((video, idx) => (
             <li key={video.id} className="video-item">
-              <span>{video.title}</span>
-              <button onClick={() => downloadVideo(video.videoUrl)}>
-                {video.title}
-                다운로드드
-              </button>
+            <button
+              className="home-btn big-center-btn"
+              onClick={() => downloadVideo(video.videoUrl)}
+            >
+            my video {idx + 1} download
+            </button>
             </li>
           ))}
         </ul>
