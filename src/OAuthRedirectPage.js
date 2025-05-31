@@ -9,7 +9,7 @@ function OAuthRedirectPage() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/api/user', { withCredentials: true })
+      .get('https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/api/user', { withCredentials: true })
       .then((res) => {
         login(res.data);
         navigate('/');

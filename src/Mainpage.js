@@ -28,13 +28,15 @@ function Mainpage() {
     setIsGenerating(true);
     try {
     // 백엔드로 URL 전달 (POST 요청)
-    const response = await fetch('http://localhost:8080/api/receive-url', {
+    const response = await fetch('https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/api/receive-url', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ url }),
-    });
+      credentials: 'include', // 세션 인증 필요
+  });
+
 
     if (!response.ok) {
       throw new Error('서버 오류: ' + response.status);
@@ -71,13 +73,23 @@ function Mainpage() {
 //   }, 2000);
 // };
 
+  // const handleLogout = () => {
+  //   setUrl("");
+  //   setIsGenerating(false);
+  //   setVideoUrl("");
+  //   logout();
+  //   navigate("/");
+  // };
   const handleLogout = () => {
-    setUrl("");
-    setIsGenerating(false);
-    setVideoUrl("");
-    logout();
-    navigate("/");
-  };
+  fetch("https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/logout", { credentials: "include" })
+    .then(() => {
+      setUrl("");
+      setIsGenerating(false);
+      setVideoUrl("");
+      logout();
+      navigate("/");
+    });
+};
 
   const handleDownload = () => {
     alert("비디오 다운로드는 실제 백엔드 연동 시 구현됩니다.");
@@ -89,7 +101,7 @@ function Mainpage() {
       <div className="header">
         {user ? (
           <div className="user-header">
-            <span className="user-info">반갑습니다, {user.name}님</span>
+            <span className="user-info"><strong>반갑습니다, {user.name}님</strong></span>
             <div className="header-buttons">
               <button
                 className="my-page-btn"
@@ -111,6 +123,7 @@ function Mainpage() {
 
       {/* 본문 내용 */}
       <div className="content">
+        
         <h1 className="logo">
           SHOPPABLE<span className="highlight">.AI</span>
         </h1>
