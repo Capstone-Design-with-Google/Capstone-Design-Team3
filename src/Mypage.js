@@ -65,6 +65,7 @@ function MyPage() {
           ))}
         </ul>
       )}
+      
     </div>
   );
 }

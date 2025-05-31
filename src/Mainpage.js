@@ -28,7 +28,7 @@ function Mainpage() {
     setIsGenerating(true);
     try {
     // 백엔드로 URL 전달 (POST 요청)
-    const response = await fetch('https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/api/receive-url', {
+    const response = await fetch('http://localhost:5000/api/receive-url', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ function Mainpage() {
   //   navigate("/");
   // };
   const handleLogout = () => {
-  fetch("https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/logout", { credentials: "include" })
+  fetch("http:localhost:5000/logout", { credentials: "include" })
     .then(() => {
       setUrl("");
       setIsGenerating(false);

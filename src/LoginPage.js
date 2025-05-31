@@ -19,8 +19,8 @@ function LoginPage() {
     // navigate('/');
     // Spring Boot 백엔드의 OAuth2 로그인 시작 URL
     // window.location.href = "http://localhost:8080/oauth2/authorization/google";
-    //window.location.href = "http://localhost:5000/login";
-    window.location.href = "https://vigilant-xylophone-wqw75665g9gf77q-5000.app.github.dev/login";
+    window.location.href = "http://localhost:5000/login";
+    //window.location.href = "https://shiny-palm-tree-9pw7gq56v6x2pxxg-5000.app.github.dev/login";
   };
 
   return (
