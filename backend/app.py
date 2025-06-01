@@ -13,6 +13,7 @@ from user import User
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import run_ai_shorts_generator
+from flask import url_for
 
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "구글_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "구글_CLIENT_SECRET")
@@ -120,7 +121,17 @@ def receive_url():
     try:
         video_path = run_ai_shorts_generator(url)
         if video_path:
-            return jsonify({'videoUrl': video_path})
+            static_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
+            video_abs = os.path.abspath(video_path)
+            if video_abs.startswith(static_folder):
+                rel_path = os.path.relpath(video_abs, static_folder)
+                # url_for로 정적 파일 URL 생성
+                video_url = url_for('static', filename=rel_path.replace('\\', '/'))
+            else:
+                # static 폴더에 없는 경우, 절대경로 반환 (비추천)
+                video_url = video_path
+            return jsonify({'videoUrl': video_url})
+            #return jsonify({'videoUrl': video_path})
         else:
             return jsonify({'error': '영상 생성에 실패했습니다.'}), 500
     except Exception as e:
