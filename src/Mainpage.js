@@ -152,10 +152,23 @@ function Mainpage() {
             <div className="video-player">
               <p>비디오가 생성되었습니다!</p>
               {/* 여기에 video 태그나 player 넣을 수도 있음 */}
+             <video
+              src={`http://localhost:5000${videoUrl}`}
+              controls
+              width="400"
+              style={{ margin: '20px 0' }}
+              />
             </div>
-            <button className="download-btn" onClick={handleDownload}>
+            {/* <button className="download-btn" onClick={handleDownload}>
+              비디오 다운로드 
+              </button>*/}
+            <a
+              className="download-btn"
+              href={`http://localhost:5000${videoUrl}`}
+              download
+            >
               비디오 다운로드
-            </button>
+            </a>
           </div>
         )}
         
