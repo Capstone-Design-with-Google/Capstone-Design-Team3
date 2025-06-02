@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./Mainpage.css";
-
+import axios from 'axios';
 
 function Mainpage() {
   const [url, setUrl] = useState("");
@@ -43,7 +43,7 @@ function Mainpage() {
     }
 
     // 백엔드에서 결과 데이터 받기 (예: 영상 URL 등)
-    const data = await response.text();
+    const data = await response.json(); 
     // 반환
     // 예시: data.videoUrl이 백엔드에서 반환된다면
     const newVideo = {
@@ -91,9 +91,22 @@ function Mainpage() {
     });
 };
 
-  const handleDownload = () => {
-    alert("비디오 다운로드는 실제 백엔드 연동 시 구현됩니다.");
-  };
+const handleDownload = async (videoUrl) => {
+  const filename = videoUrl.split("/").pop();
+  const response = await axios.get(`http://localhost:5000${videoUrl}`, {
+    responseType: 'blob',
+    withCredentials: true,
+  });
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
+
 
   return (
     <div className="main-page">
@@ -159,9 +172,6 @@ function Mainpage() {
               style={{ margin: '20px 0' }}
               />
             </div>
-            {/* <button className="download-btn" onClick={handleDownload}>
-              비디오 다운로드 
-              </button>*/}
             <a
               className="download-btn"
               href={`http://localhost:5000${videoUrl}`}

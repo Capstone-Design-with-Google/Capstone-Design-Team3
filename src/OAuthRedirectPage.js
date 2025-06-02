@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext';
 function OAuthRedirectPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
-
+//
   useEffect(() => {
     axios
       .get('http://localhost:5000/api/user', { withCredentials: true })
