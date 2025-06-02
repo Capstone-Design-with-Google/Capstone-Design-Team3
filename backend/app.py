@@ -5,9 +5,11 @@ from dotenv import load_dotenv
 load_dotenv()  # .env 파일을 자동으로 읽어서 환경변수로 등록
 from flask import Flask, redirect, request, url_for, jsonify
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from flask import send_from_directory
+from flask import send_file
 from oauthlib.oauth2 import WebApplicationClient
 import requests
-
+import traceback  # 파일 상단에 추가
 from db import init_db_command
 from user import User
 import sys
@@ -18,8 +20,13 @@ from flask import url_for
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "구글_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "구글_CLIENT_SECRET")
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='/videos',
+    static_folder=os.path.join(BASE_DIR, 'output', 'videos')
+)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 login_manager = LoginManager()
@@ -114,28 +121,32 @@ def get_google_provider_cfg():
 @login_required
 def receive_url():
     data = request.get_json()
+    print("✅ 받은 데이터:", data)
+
     url = data.get('url')
     if not url:
         return jsonify({'error': 'No URL provided'}), 400
 
     try:
+        print(f"🎯 URL 수신됨: {url}")
         video_path = run_ai_shorts_generator(url)
+        print(f"🎬 생성된 비디오 경로: {video_path}")
+
         if video_path:
-            static_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
-            video_abs = os.path.abspath(video_path)
-            if video_abs.startswith(static_folder):
-                rel_path = os.path.relpath(video_abs, static_folder)
-                # url_for로 정적 파일 URL 생성
-                video_url = url_for('static', filename=rel_path.replace('\\', '/'))
-            else:
-                # static 폴더에 없는 경우, 절대경로 반환 (비추천)
-                video_url = video_path
+            video_filename = os.path.basename(video_path)
+            video_url = f"/videos/{video_filename}"
+            print(f"🌐 반환할 videoUrl: {video_url}")
             return jsonify({'videoUrl': video_url})
-            #return jsonify({'videoUrl': video_path})
         else:
+            print("⚠️ run_ai_shorts_generator가 None 반환")
             return jsonify({'error': '영상 생성에 실패했습니다.'}), 500
     except Exception as e:
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
-    
+
+# output/videos 폴더 경로
+VIDEO_FOLDER = os.path.join(os.path.dirname(__file__), 'output', 'videos')
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
