@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./Mainpage.css";
-import axios from 'axios';
+//import axios from 'axios';
 
 function Mainpage() {
   const [url, setUrl] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
-
   const { user, logout, addVideo } = useAuth();
   const navigate = useNavigate();
 
-  // URL 제출 처리 (백엔드 연동 없이 상태 변경만)
-  // 제출 시 URL 기반 비디오 생성 흐름
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,27 +56,7 @@ function Mainpage() {
     setIsGenerating(false);
   }
 };
-//백에 url 전달 구현 전//
-//   setTimeout(() => {
-//     const newVideo = {
-//       id: Date.now(),
-//       title: `${url} 요약`,
-//       videoUrl: 'https://example.com/sample-video.mp4',
-//     };
-//     setVideoUrl(newVideo.videoUrl);
 
-//     setIsGenerating(false);
-//     addVideo(newVideo); // MyPage 목록에 추가
-//   }, 2000);
-// };
-
-  // const handleLogout = () => {
-  //   setUrl("");
-  //   setIsGenerating(false);
-  //   setVideoUrl("");
-  //   logout();
-  //   navigate("/");
-  // };
   const handleLogout = () => {
   fetch("http:localhost:5000/logout", { credentials: "include" })
     .then(() => {
@@ -91,22 +68,29 @@ function Mainpage() {
     });
 };
 
-const handleDownload = async (videoUrl) => {
-  const filename = videoUrl.split("/").pop();
-  const response = await axios.get(`http://localhost:5000${videoUrl}`, {
-    responseType: 'blob',
-    withCredentials: true,
-  });
+// const handleDownload = async (videoUrl) => {
+//   const filename = videoUrl.split("/").pop();
+//   const response = await axios.get(`http://localhost:5000${videoUrl}`, {
+//     responseType: 'blob',
+//     withCredentials: true,
+//   });
 
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', filename);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-};
+//   const url = window.URL.createObjectURL(new Blob([response.data]));
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.setAttribute('download', filename);
+//   document.body.appendChild(link);
+//   link.click();
+//   link.remove();
+// };
 
+useEffect(() => {
+    localStorage.setItem("lastUrl", url);
+  }, [url]);
+
+  useEffect(() => {
+    localStorage.setItem("lastVideoUrl", videoUrl);
+  }, [videoUrl]);
 
   return (
     <div className="main-page">
@@ -163,22 +147,20 @@ const handleDownload = async (videoUrl) => {
         {videoUrl && !isGenerating && (
           <div className="video-result">
             <div className="video-player">
-              <p>비디오가 생성되었습니다!</p>
-              {/* 여기에 video 태그나 player 넣을 수도 있음 */}
-             <video
-              src={`http://localhost:5000${videoUrl}`}
-              controls
-              width="400"
-              style={{ margin: '20px 0' }}
+              <p className="video-success-msg">
+                비디오가 생성되었습니다!
+              </p>
+              <video
+                src={`http://localhost:5000${videoUrl}`}
+                controls
+                width="250"
+                height="250"
+                style={{ margin: '10px 0', objectFit: 'contain', borderRadius: '12px', background: '#000' }}
               />
+              <div className="download-info">
+                영상 다운로드는 MY PAGE에서 할 수 있습니다
+              </div>
             </div>
-            <a
-              className="download-btn"
-              href={`http://localhost:5000${videoUrl}`}
-              download
-            >
-              비디오 다운로드
-            </a>
           </div>
         )}
         
