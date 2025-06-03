@@ -59,6 +59,7 @@ def run_ai_shorts_generator(target_url):
     else: print("\n😥 영상 생성에 실패했습니다.")
     end_time = time.time()
     print(f"총 실행 시간: {end_time - start_time:.2f} 초")
+    return final_video_path
 
 if __name__ == "__main__":
     # target_product_url = "https://prod.danawa.com/info/?pcode=41499608&cate=10253217"
