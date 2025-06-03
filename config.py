@@ -24,12 +24,21 @@ GEMINI_TEXT_MODEL_NAME = 'gemini-1.5-flash'   # 나레이션 및 씬 스크립�
 TTS_LANGUAGE_CODE = "ko-KR"
 TTS_VOICE_NAME_NEURAL = "ko-KR-Neural2-B"
 TTS_SPEAKING_RATE = 1.5  # 기본값 1.0, 1.0보다 크면 빨라짐 (예: 1.2는 20% 빠르게)
+TTS_SAMPLE_RATE_HERTZ = 24000  # <--- 이 줄을 추가해주세요! (또는 44100 등 선호하는 값)
 
 VIDEO_FPS = 24
 VIDEO_RESOLUTION = (720, 1280) # 세로형 쇼츠 (가로, 세로)
 DEFAULT_FONT_PATH_WIN = "NanumGothicBold.ttf" # 예: "malgun.ttf" 또는 "NanumGothicBold.ttf"
 DEFAULT_FONT_PATH_MAC = "/Library/Fonts/AppleGothic.ttf"
 DEFAULT_FONT_PATH_LINUX = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"
+
+ASSETS_FOLDER = os.path.join(PROJECT_ROOT_DIR, "assets")
+BGM_FOLDER = os.path.join(ASSETS_FOLDER, "bgm")
+DEFAULT_BGM_FILENAME = "BGM_jongp.mp3" # 멘티님이 준비한 BGM 파일명으로 변경
+SINGLE_BGM_FILE_PATH = os.path.join(BGM_FOLDER, DEFAULT_BGM_FILENAME)
+
+DEFAULT_BGM_VOLUME = 0.2 # BGM 기본 볼륨 (0.0 ~ 1.0, 나레이션보다 작게)
+MAX_VIDEO_LENGTH = 55  # 쇼츠 영상의 최대 길이를 초 단위로 설정 (예: 55초)
 
 def initialize_project_folders():
     folders_to_create = [
