@@ -7,9 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 
-  /* 기존 그라데이션 주석 처리 또는 삭제 */
-  /* background: linear-gradient(135deg, #0f2027 0%, #2c5364 50%, #2196f3 100%); */
-
   /* 이미지 배경 적용 */
   background-image: url('../public/image1.jpg'); /* public 폴더 기준 경로 */
   background-size: cover;           /* 이미지를 화면에 꽉 채움 */

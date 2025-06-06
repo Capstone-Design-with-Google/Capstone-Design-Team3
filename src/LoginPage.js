@@ -3,24 +3,8 @@ import './LoginPage.css';
 
 
 function LoginPage() {
-  // const { login } = useAuth();
-  // const navigate = useNavigate();
-
-  // 구글 로그인 처리 (백엔드 연동 없이 간단하게)
   const handleGoogleLogin = () => {
-    // 가상의 사용자 데이터
-    // const userData = {
-    //   id: 'user123',
-    //   name: '홍길동',
-    //   email: 'user@example.com'
-    // };
-    
-    // login(userData);
-    // navigate('/');
-    // Spring Boot 백엔드의 OAuth2 로그인 시작 URL
-    // window.location.href = "http://localhost:8080/oauth2/authorization/google";
     window.location.href = "http://localhost:5000/login";
-    //window.location.href = "https://shiny-palm-tree-9pw7gq56v6x2pxxg-5000.app.github.dev/login";
   };
 
   return (
